@@ -24,8 +24,9 @@
 #include <string>
 #include <set>
 #include <queue>
+#include "/Users/Constantine/interviewPractice/UnitTest++/src/UnitTest++.h"
 using namespace std;
-
+using namespace UnitTest;
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  ladderLength
@@ -68,6 +69,19 @@ ladderLength (string start, string end, set<string> &dict)
 	return 0;
 }	/* -----  end of function ladderLength  ----- */
 
+
+TEST(EmptyDict){
+	set<string> dict;
+	CHECK_EQUAL(0, ladderLength("hit", "dog", dict));
+}
+TEST(NormalCase){
+	set<string> dict;
+	dict.insert("hot");
+	dict.insert("dog");
+	dict.insert("dot");
+	CHECK_EQUAL(3, ladderLength("hot", "cog", dict));
+}
+
 /* 
  * ===  FUNCTION  ======================================================================
  *         Name:  main
@@ -78,9 +92,11 @@ ladderLength (string start, string end, set<string> &dict)
 main ( int argc, char *argv[] )
 {
 	set<string> dict;
-	dict.insert("hot");
-	dict.insert("dog");
-	printf("%d\n", ladderLength("hot", "dog", dict));
-	return EXIT_SUCCESS;
+	
+	return RunAllTests();
+//	dict.insert("hot");
+//	dict.insert("dog");
+//	printf("%d\n", ladderLength("hot", "dog", dict));
+	//return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */
 
