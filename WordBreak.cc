@@ -17,6 +17,7 @@
  */
 #include <string>
 #include <unordered_set>
+#include <functional>
 
 bool wordBreak(string s, unordered_set<string> &dict){
 	int size = s.length();
@@ -76,4 +77,37 @@ bool wordBreak_ii(string s, unordered_set<string> &dict){
 	return ret;
 }
 
+bool wordBreak_withLamdba(string s, unordered_set<string> &dict){
+	int size = s.length();
+	vector<string> ret;
+	bool dp[size+1];
+	dp[size] = true;
+	for(int i = size - 1; i >= 0; i--){
+		int j;
+		for(j = i; j < size; j++){
+			string sub = s.substr(i, j - i + 1);
+			if(dict.find(sub) != dict.end()){
+				dp[i] = true;
+				break;
+			}
+		}
+		if(j == size) dp[i] = false;
+	}
 
+	function<void(int start, string path)> dfs;
+	dfs = [&](int start, string path){
+		if(start == size){
+			path.erase(path.size()-1);
+			ret.push_back(path);
+		}
+		for(int i = start; i < size; i++){
+			if(dp[i+1] == false) continue;
+			string sub = s.substr(start, i - start + 1);
+			if(dict.find(sub) != dict.end()){
+				dfs(i+1, path+sub+" ");
+			}
+		}
+	}
+	dfs(0, "");
+	return ret;
+}
